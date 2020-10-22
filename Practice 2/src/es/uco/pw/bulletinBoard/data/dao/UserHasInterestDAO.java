@@ -13,22 +13,21 @@ public class UserHasInterestDAO extends AbstractDAO<UserHasInterest, Integer> {
 	}
 
 	@Override
-	protected void setIdStatement(PreparedStatement ps, Integer id) {
+	protected void setIdStatement(PreparedStatement preparedStatement, Integer id) {
 		try {		
-			ps.setInt(1, id);
+			preparedStatement.setInt(1, id);
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Override
-	protected void setObjectStatement(PreparedStatement ps, UserHasInterest object) {
+	protected void setObjectStatement(PreparedStatement preparedStatement, UserHasInterest object) {
 		try {
-			ps.setInt(1, object.getUserId());
-			ps.setInt(2, object.getInterestId());
-			if(object.getId() != null) ps.setInt(3, object.getId());
+			preparedStatement.setInt(1, object.getUserId());
+			preparedStatement.setInt(2, object.getInterestId());
+			if(object.getId() != null) preparedStatement.setInt(3, object.getId());
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -47,13 +46,13 @@ public class UserHasInterestDAO extends AbstractDAO<UserHasInterest, Integer> {
 	}
 
 	@Override
-	protected UserHasInterest readObject(ResultSet rs) {
+	protected UserHasInterest readObject(ResultSet resultSet) {
 		UserHasInterest userHasInterest = null;
 		try {
-			if(rs.next()) {
-				Integer id = rs.getInt("id");
-				Integer userId = rs.getInt("user_id");
-				Integer interestId = rs.getInt("interest_id");
+			if(resultSet.next()) {
+				Integer id = resultSet.getInt("id");
+				Integer userId = resultSet.getInt("user_id");
+				Integer interestId = resultSet.getInt("interest_id");
 		    	userHasInterest = new UserHasInterest(id, userId, interestId);
 			}
 		} 

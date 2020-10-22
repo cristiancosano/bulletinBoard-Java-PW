@@ -102,25 +102,42 @@ public class Ad {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)										return true;
-		if (obj == null)										return false;
-		if (getClass() != obj.getClass())						return false;
-		
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Ad other = (Ad) obj;
-		
-		if (body == null && other.body != null)					return false;
-		else if (!body.equals(other.body))						return false;
-		if (dateOfExpiry == null && other.dateOfExpiry != null)	return false;
-		else if (!dateOfExpiry.equals(other.dateOfExpiry))		return false;
-		if (id == null && other.id != null)						return false;
-		else if (!id.equals(other.id))							return false;
-		if (ownerUser == null && other.ownerUser != null) 		return false;
-		else if (!ownerUser.equals(other.ownerUser))			return false;
-		if (status != other.status)								return false;
-		if (title == null && other.title != null)				return false;
-		else if (!title.equals(other.title))					return false;
-		if (type != other.type)									return false;
-		
+		if (body == null) {
+			if (other.body != null)
+				return false;
+		} else if (!body.equals(other.body))
+			return false;
+		if (dateOfExpiry == null) {
+			if (other.dateOfExpiry != null)
+				return false;
+		} else if (!dateOfExpiry.equals(other.dateOfExpiry))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (ownerUser == null) {
+			if (other.ownerUser != null)
+				return false;
+		} else if (!ownerUser.equals(other.ownerUser))
+			return false;
+		if (status != other.status)
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		if (type != other.type)
+			return false;
 		return true;
 	}
 

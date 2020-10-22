@@ -55,18 +55,28 @@ public class UserHasInterest {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)									return true;
-		if (obj == null)									return false;
-		if (getClass() != obj.getClass())					return false;
-		
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		UserHasInterest other = (UserHasInterest) obj;
-		
-		if (id == null && other.id != null)					return false;
-		else if (!id.equals(other.id))						return false;
-		if (interestId == null && other.interestId != null)	return false;
-		else if (!interestId.equals(other.interestId))		return false;
-		if (userId == null && other.userId != null)			return false;
-		else if (!userId.equals(other.userId))				return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (interestId == null) {
+			if (other.interestId != null)
+				return false;
+		} else if (!interestId.equals(other.interestId))
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
 		return true;
 	}
 

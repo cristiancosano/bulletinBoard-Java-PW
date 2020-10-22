@@ -4,12 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import es.uco.pw.bulletinBoard.business.Ad;
+import es.uco.pw.bulletinBoard.business.AdHasRecipientUser;
 import es.uco.pw.bulletinBoard.business.AdStatus;
 import es.uco.pw.bulletinBoard.business.AdType;
 import es.uco.pw.bulletinBoard.business.Interest;
 import es.uco.pw.bulletinBoard.business.User;
 import es.uco.pw.bulletinBoard.business.UserHasInterest;
 import es.uco.pw.bulletinBoard.data.dao.AdDAO;
+import es.uco.pw.bulletinBoard.data.dao.AdHasRecipientUserDAO;
 import es.uco.pw.bulletinBoard.data.dao.InterestDAO;
 import es.uco.pw.bulletinBoard.data.dao.UserDAO;
 import es.uco.pw.bulletinBoard.data.dao.UserHasInterestDAO;
@@ -17,19 +19,9 @@ import es.uco.pw.bulletinBoard.data.dao.UserHasInterestDAO;
 public class Main {
 
 	public static void main(String[] args) {
-		/*
-		 * User u = new User("antonioharo@gmail.com", "Antonio", "Desaparecido",
-		 * LocalDate.parse("2000-04-29"), new ArrayList<String>());
-		 * 
-		 * UserDAO d = new UserDAO(); d.create(u);
-		 */
-		
-		String test = "userInterest";
+		String test = "adHasUser";
 		Double random = Math.random()*10000;
 		Integer randInt = random.intValue();
-		
-
-
 		
 		if(test == "user") {
 			UserDAO u = new UserDAO();
@@ -100,6 +92,23 @@ public class Main {
 			dao.delete(object.getId());
 			System.out.println(dao.read(object.getId()));
 			
+			
+		}
+		else if(test == "adHasUser") {
+			AdHasRecipientUserDAO dao = new AdHasRecipientUserDAO();
+			System.out.println(dao.read(1));
+			AdHasRecipientUser object = new AdHasRecipientUser(1, 3);
+			
+			dao.create(object);
+			System.out.println(dao.read(object.getId()));
+			
+			object.setUserId(4);
+			dao.update(object.getId(), object);
+			System.out.println(dao.read(object.getId()));
+
+			
+			dao.delete(object.getId());
+			System.out.println(dao.read(object.getId()));
 			
 		}
 		

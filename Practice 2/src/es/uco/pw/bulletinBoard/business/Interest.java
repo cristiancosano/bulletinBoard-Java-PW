@@ -41,17 +41,23 @@ public class Interest {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)							return true;
-		if (obj == null)							return false;
-		if (getClass() != obj.getClass())			return false;
-		
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Interest other = (Interest) obj;
-		
-		if (id == null && other.id != null)			return false;
-		else if (!id.equals(other.id)) 				return false;
-		if (value == null && other.value != null)	return false;
-		else if (!value.equals(other.value))		return false;
-		
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
 		return true;
 	}
 
