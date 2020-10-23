@@ -1,4 +1,4 @@
-package es.uco.pw.bulletinBoard.data.dao;
+package es.uco.pw.bulletinBoard.data.dao.ad;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -6,9 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-import es.uco.pw.bulletinBoard.business.Ad;
-import es.uco.pw.bulletinBoard.business.AdStatus;
-import es.uco.pw.bulletinBoard.business.AdType;
+import es.uco.pw.bulletinBoard.business.ad.Ad;
+import es.uco.pw.bulletinBoard.business.ad.AdStatus;
+import es.uco.pw.bulletinBoard.business.ad.AdType;
+import es.uco.pw.bulletinBoard.data.dao.common.AbstractDAO;
 
 public class AdDAO extends AbstractDAO<Ad, Integer> {
 	

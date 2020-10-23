@@ -1,4 +1,4 @@
-package es.uco.pw.bulletinBoard.business;
+package es.uco.pw.bulletinBoard.business.ad;
 
 public enum AdStatus {
 	edited,

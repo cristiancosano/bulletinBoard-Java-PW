@@ -1,6 +1,9 @@
-package es.uco.pw.bulletinBoard.business;
+package es.uco.pw.bulletinBoard.business.ad;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+
+import es.uco.pw.bulletinBoard.business.user.User;
 
 public class Ad {
 	Integer id;
@@ -10,6 +13,7 @@ public class Ad {
 	AdType type;
 	AdStatus status;
 	LocalDate dateOfExpiry;
+	ArrayList<User> recipients;
 	
 	public Ad(Integer id, String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfExpiry) {
 		this.id = id;

@@ -1,4 +1,4 @@
-package es.uco.pw.bulletinBoard.business;
+package es.uco.pw.bulletinBoard.business.interest;
 
 public class Interest {
 	private Integer id;

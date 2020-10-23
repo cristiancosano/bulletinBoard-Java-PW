@@ -1,7 +1,9 @@
-package es.uco.pw.bulletinBoard.business;
+package es.uco.pw.bulletinBoard.business.user;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import es.uco.pw.bulletinBoard.business.interest.Interest;
 
 public class User {
 	
@@ -11,9 +13,9 @@ public class User {
 	private String email;
 	private String password;
 	private LocalDate dateOfBirth;
-	private ArrayList<String> interests;
+	private ArrayList<Interest> interests;
 	
-	public User(Integer id, String name, String lastName, String email, String password, LocalDate dateOfBirth, ArrayList<String> interests) {
+	public User(Integer id, String name, String lastName, String email, String password, LocalDate dateOfBirth, ArrayList<Interest> interests) {
 		this.id = id;
 		this.name = name;
 		this.lastName = lastName;
@@ -23,7 +25,7 @@ public class User {
 		this.interests = interests;
 	}
 	
-	public User(String name, String lastName, String email, String password, LocalDate dateOfBirth, ArrayList<String> interests) {
+	public User(String name, String lastName, String email, String password, LocalDate dateOfBirth, ArrayList<Interest> interests) {
 		this.id = null;
 		this.name = name;
 		this.lastName = lastName;
@@ -81,11 +83,11 @@ public class User {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public ArrayList<String> getInterests() {
+	public ArrayList<Interest> getInterests() {
 		return interests;
 	}
 
-	public void setInterests(ArrayList<String> interests) {
+	public void setInterests(ArrayList<Interest> interests) {
 		this.interests = interests;
 	}
 

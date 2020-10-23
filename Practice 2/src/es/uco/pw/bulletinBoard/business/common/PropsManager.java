@@ -1,4 +1,4 @@
-package es.uco.pw.utils;
+package es.uco.pw.bulletinBoard.business.common;
 
 import java.io.FileInputStream;
 import java.io.IOException;

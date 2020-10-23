@@ -1,15 +1,14 @@
-package es.uco.pw.bulletinBoard.data.dao;
+package es.uco.pw.bulletinBoard.data.dao.common;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-import es.uco.pw.utils.MySQLManager;
-import es.uco.pw.utils.PropsManager;
+import es.uco.pw.bulletinBoard.business.common.PropsManager;
 
-public abstract class AbstractDAO<P,K> implements IDAO<P,K> {
+public abstract class AbstractDAO<P,K> implements DAO<P,K> {
 	
 	
 	  //private static final int UPDATE_EXECUTED_SUCCESSFULLY = 1;
@@ -19,24 +18,24 @@ public abstract class AbstractDAO<P,K> implements IDAO<P,K> {
 	  //protected abstract String getSelectByIdQuery();
 	  //protected abstract String getDeleteQuery();
 	  
-	  protected abstract void setIdStatement(PreparedStatement preparedStatement, K id);
-	  protected abstract void setObjectStatement(PreparedStatement preparedStatement, P object);
-	  protected abstract void updateIdFromGeneratedKeys(ResultSet generatedKeys, P object);
-	  protected abstract P readObject(ResultSet resultSet);
+	  protected abstract void setIdStatement(PreparedStatement preparedStatement, K id) throws DAOException;
+	  protected abstract void setObjectStatement(PreparedStatement preparedStatement, P object) throws DAOException;
+	  protected abstract void updateIdFromGeneratedKeys(ResultSet generatedKeys, P object) throws DAOException;
+	  protected abstract P readObject(ResultSet resultSet) throws DAOException;
 	  protected PropsManager sql;
 		
 	  //protected abstract String getCountRowsQuery();
 	  
-	  private Connection connection;
+	  protected Connection connection;
 	  
 	  
 	  protected AbstractDAO() {
-		  this.connection = MySQLManager.getInstance().getConnection();
+		  this.connection = DBConnection.getConnection();
 		  this.sql = new PropsManager("sql.properties");
 	  }
 
 	@Override
-	public int create(P object) {
+	public int create(P object) throws DAOException {
 		int status = 0;
 		String queryKey = this.tableName.toUpperCase()+"_CREATE";
 		String query = this.sql.getProperty(queryKey);
@@ -47,14 +46,14 @@ public abstract class AbstractDAO<P,K> implements IDAO<P,K> {
 			status = ps.executeUpdate();
 			this.updateIdFromGeneratedKeys(ps.getGeneratedKeys(), object);
 		}
-		catch(SQLException e){
-			e.printStackTrace();
+		catch(Exception e){
+			throw new DAOException(e.getMessage(), e);
 		}
 		return status;
 	}
 
 	@Override
-	public P read(K id) {
+	public P read(K id) throws DAOException {
 		P object = null;
 		String queryKey = this.tableName.toUpperCase()+"_READ";
 		String query = this.sql.getProperty(queryKey);
@@ -64,33 +63,51 @@ public abstract class AbstractDAO<P,K> implements IDAO<P,K> {
 		    ResultSet rs = ps.executeQuery();
 		    object = this.readObject(rs);
 		}
-		catch(SQLException e){
-			e.printStackTrace();
+		catch(Exception e){
+			throw new DAOException(e.getMessage(), e);
 		}
 		return object;
 	}
+	
+	@Override
+	public ArrayList<P> readAll() throws DAOException {
+		ArrayList<P> array = new ArrayList<P>();
+		String query = "SELECT * FROM "+this.tableName;
+		try{
+			PreparedStatement ps = this.connection.prepareStatement(query);
+		    ResultSet rs = ps.executeQuery();
+		    P aux = this.readObject(rs);
+		    while((aux != null)) {
+		    	array.add(aux);
+		    	aux = this.readObject(rs);
+		    }
+		    
+		}
+		catch(Exception e){
+			throw new DAOException(e.getMessage(), e);
+		}
+		return array;
+	}
 
 	@Override
-	public int update(K id, P object) {
+	public int update(K id, P object) throws DAOException {
 		int status = 0;
 		String queryKey = this.tableName.toUpperCase()+"_UPDATE";
 		String query = this.sql.getProperty(queryKey);
 		try {
 			PreparedStatement ps= this.connection.prepareStatement(query);
 			this.setObjectStatement(ps, object);
-			//this.setIdStatement(ps, id);
-			//System.out.println(ps);
 			status = ps.executeUpdate();
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			throw new DAOException(e.getMessage(), e);
 		}
 		
 		return status;
 	}
 
 	@Override
-	public int delete(K id) {
+	public int delete(K id) throws DAOException {
 		int status = 0;
 		String queryKey = this.tableName.toUpperCase()+"_DELETE";
 		String query = this.sql.getProperty(queryKey);
@@ -100,7 +117,7 @@ public abstract class AbstractDAO<P,K> implements IDAO<P,K> {
 			status = ps.executeUpdate();
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			throw new DAOException(e.getMessage(), e);
 		}
 		return status;
 	}

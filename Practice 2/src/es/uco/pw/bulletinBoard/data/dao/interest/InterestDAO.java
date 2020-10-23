@@ -1,10 +1,11 @@
-package es.uco.pw.bulletinBoard.data.dao;
+package es.uco.pw.bulletinBoard.data.dao.interest;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import es.uco.pw.bulletinBoard.business.Interest;
+import es.uco.pw.bulletinBoard.business.interest.Interest;
+import es.uco.pw.bulletinBoard.data.dao.common.AbstractDAO;
 
 public class InterestDAO extends AbstractDAO<Interest, Integer> {
 	
