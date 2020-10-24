@@ -15,6 +15,27 @@ public class Ad {
 	LocalDate dateOfExpiry;
 	ArrayList<User> recipients;
 	
+	public Ad(Integer id, String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfExpiry, ArrayList<User> recipients) {
+		this.id = id;
+		this.title = title;
+		this.body = body;
+		this.ownerUser = ownerUser;
+		this.type = type;
+		this.status = status;
+		this.dateOfExpiry = dateOfExpiry;
+		this.recipients = recipients;
+	}
+	public Ad(String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfExpiry, ArrayList<User> recipients) {
+		this.id = null;
+		this.title = title;
+		this.body = body;
+		this.ownerUser = ownerUser;
+		this.type = type;
+		this.status = status;
+		this.dateOfExpiry = dateOfExpiry;
+		this.recipients = recipients;
+	}
+	
 	public Ad(Integer id, String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfExpiry) {
 		this.id = id;
 		this.title = title;
@@ -24,6 +45,7 @@ public class Ad {
 		this.status = status;
 		this.dateOfExpiry = dateOfExpiry;
 	}
+	
 	public Ad(String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfExpiry) {
 		this.id = null;
 		this.title = title;
@@ -90,6 +112,14 @@ public class Ad {
 		this.dateOfExpiry = dateOfExpiry;
 	}
 
+	public ArrayList<User> getRecipients() {
+		return recipients;
+	}
+	
+	public void setRecipients(ArrayList<User> recipients) {
+		this.recipients = recipients;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -98,6 +128,7 @@ public class Ad {
 		result = prime * result + ((dateOfExpiry == null) ? 0 : dateOfExpiry.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((ownerUser == null) ? 0 : ownerUser.hashCode());
+		result = prime * result + ((recipients == null) ? 0 : recipients.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -133,6 +164,11 @@ public class Ad {
 				return false;
 		} else if (!ownerUser.equals(other.ownerUser))
 			return false;
+		if (recipients == null) {
+			if (other.recipients != null)
+				return false;
+		} else if (!recipients.equals(other.recipients))
+			return false;
 		if (status != other.status)
 			return false;
 		if (title == null) {
@@ -148,7 +184,7 @@ public class Ad {
 	@Override
 	public String toString() {
 		return "Ad [id=" + id + ", title=" + title + ", body=" + body + ", ownerUser=" + ownerUser + ", type=" + type
-				+ ", status=" + status + ", dateOfExpiry=" + dateOfExpiry + "]";
+				+ ", status=" + status + ", dateOfExpiry=" + dateOfExpiry + ", recipients=" + recipients + "]";
 	}
 	
 	

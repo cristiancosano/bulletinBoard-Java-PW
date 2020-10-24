@@ -18,23 +18,23 @@ public class UserDAO extends AbstractDAO<User, Integer> {
 		this.tableName = "USER";
 	}
 	
-	@Override
-	public User read(Integer id) {
-		User object = null;
-		String queryKey = this.tableName.toUpperCase()+"_READ";
-		String query = this.sql.getProperty(queryKey);
-		try{
-			PreparedStatement ps = this.connection.prepareStatement(query);
-		    this.setIdStatement(ps, id);
-		    ResultSet rs = ps.executeQuery();
-		    object = this.readObject(rs);
-		    
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-		}
-		return object;
-	}
+//	@Override
+//	public User read(Integer id) {
+//		User object = null;
+//		String queryKey = this.tableName.toUpperCase()+"_READ";
+//		String query = this.sql.getProperty(queryKey);
+//		try{
+//			PreparedStatement ps = this.connection.prepareStatement(query);
+//		    this.setIdStatement(ps, id);
+//		    ResultSet rs = ps.executeQuery();
+//		    object = this.readObject(rs);
+//		    
+//		}
+//		catch(SQLException e){
+//			e.printStackTrace();
+//		}
+//		return object;
+//	}
 
 	@Override
 	protected void setIdStatement(PreparedStatement ps, Integer id) {
