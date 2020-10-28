@@ -13,7 +13,6 @@ import es.uco.pw.bulletinBoard.business.ad.AdType;
 import es.uco.pw.bulletinBoard.business.interest.Interest;
 import es.uco.pw.bulletinBoard.business.user.User;
 import es.uco.pw.bulletinBoard.data.dao.common.AbstractDAO;
-import es.uco.pw.bulletinBoard.data.dao.user.UserDAO;
 
 public class AdDAO extends AbstractDAO<Ad, Integer> {
 	

@@ -18,6 +18,7 @@ import es.uco.pw.bulletinBoard.data.dao.user.UserDAO;
 public class Main {
 
 	public static void main(String[] args) throws DAOException {
+		
 		String test = "ad";
 		Double random = Math.random()*10000;
 		Integer randInt = random.intValue();
