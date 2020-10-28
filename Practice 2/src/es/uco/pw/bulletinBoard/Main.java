@@ -19,7 +19,7 @@ public class Main {
 
 	public static void main(String[] args) throws DAOException {
 		
-		String test = "ad";
+		String test = "user";
 		Double random = Math.random()*10000;
 		Integer randInt = random.intValue();
 		
@@ -124,10 +124,6 @@ public class Main {
 			
 		}
 		
-		
-		
-		
 	} 
-		
 		
 }
