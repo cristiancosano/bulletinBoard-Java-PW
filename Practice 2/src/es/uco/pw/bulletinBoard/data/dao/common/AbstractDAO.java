@@ -72,9 +72,10 @@ public abstract class AbstractDAO<P,K> implements DAO<P,K> {
 	@Override
 	public ArrayList<P> readAll() throws DAOException {
 		ArrayList<P> array = new ArrayList<P>();
-		String query = "SELECT * FROM "+this.tableName;
+		String query = this.sql.getProperty(this.tableName+"_READ_ALL");
 		try{
 			PreparedStatement ps = this.connection.prepareStatement(query);
+			System.out.println(ps);
 		    ResultSet rs = ps.executeQuery();
 		    P aux = this.readObject(rs);
 		    while((aux != null)) {

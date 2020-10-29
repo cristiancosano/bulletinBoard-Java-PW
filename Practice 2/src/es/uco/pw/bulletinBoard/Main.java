@@ -9,6 +9,7 @@ import es.uco.pw.bulletinBoard.business.ad.AdStatus;
 import es.uco.pw.bulletinBoard.business.ad.AdType;
 import es.uco.pw.bulletinBoard.business.interest.Interest;
 import es.uco.pw.bulletinBoard.business.user.User;
+import es.uco.pw.bulletinBoard.business.user.UserManager;
 import es.uco.pw.bulletinBoard.data.dao.ad.AdDAO;
 import es.uco.pw.bulletinBoard.data.dao.ad.AdHasRecipientUserDAO;
 import es.uco.pw.bulletinBoard.data.dao.common.DAOException;
@@ -24,6 +25,8 @@ public class Main {
 		Integer randInt = random.intValue();
 		
 		if(test == "user") {
+			UserManager um = UserManager.getInstance();
+			System.out.println(um.getAllUsers());
 			UserDAO u = new UserDAO();
 			System.out.println(u.read(1));
 			LocalDate d = LocalDate.parse("2000-04-29");
