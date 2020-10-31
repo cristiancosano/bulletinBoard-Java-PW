@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import es.uco.pw.bulletinBoard.business.interest.Interest;
 import es.uco.pw.bulletinBoard.business.user.User;
 import es.uco.pw.bulletinBoard.data.dao.common.AbstractDAO;
+import es.uco.pw.bulletinBoard.data.dao.common.DAOException;
 
 public class UserDAO extends AbstractDAO<User, Integer> {
 		
@@ -173,4 +174,69 @@ public class UserDAO extends AbstractDAO<User, Integer> {
 		
 		return status;
 	}
+	
+	public User getUserByEmail(String email) throws DAOException {
+		User user = null;
+		String query = this.sql.getProperty("USER_READ_BY_EMAIL");
+		try {
+			PreparedStatement ps = this.connection.prepareStatement(query);
+			ps.setString(1, email);
+			user = this.readObject(ps.executeQuery());
+		} catch(SQLException e) {
+			throw new DAOException(e.getMessage(), e);
+		}
+		return user;
+	}
+	
+	public ArrayList<User> getUserByFullName(String fullName) throws DAOException {
+		ArrayList<User> users = new ArrayList<User>();
+		User user = null;
+		String query = this.sql.getProperty("USER_READ_BY_FULLNAME");
+		try {
+			PreparedStatement ps = this.connection.prepareStatement(query);
+			ps.setString(1, fullName);
+			ResultSet rs = ps.executeQuery();
+			while((user = this.readObject(rs)) != null) {
+				users.add(user);
+			}
+		} catch(SQLException e) {
+			throw new DAOException(e.getMessage(), e);
+		}
+		return users;
+	}
+	
+	public ArrayList<User> getUserByInterest(String interest) throws DAOException{
+		ArrayList<User> users = new ArrayList<User>();
+		User user = null;
+		String query = this.sql.getProperty("USER_READ_BY_INTEREST");
+		try {
+			PreparedStatement ps = this.connection.prepareStatement(query);
+			ps.setString(1, interest);
+			ResultSet rs = ps.executeQuery();
+			while((user = this.readObject(rs)) != null) {
+				users.add(user);
+			}
+		} catch(SQLException e) {
+			throw new DAOException(e.getMessage(), e);
+		}
+		return users;
+	}
+	
+	public ArrayList<User> getUserByAge(Integer age) throws DAOException{
+		ArrayList<User> users = new ArrayList<User>();
+		User user = null;
+		String query = this.sql.getProperty("USER_READ_BY_AGE");
+		try {
+			PreparedStatement ps = this.connection.prepareStatement(query);
+			ps.setInt(1, age);
+			ResultSet rs = ps.executeQuery();
+			while((user = this.readObject(rs)) != null) {
+				users.add(user);
+			}
+		} catch(SQLException e) {
+			throw new DAOException(e.getMessage(), e);
+		}
+		return users;
+	}
+	
 }

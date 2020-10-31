@@ -60,29 +60,45 @@ public class UserManager {
 		return users;
 	}
 	
-	public User findContactByEmail(String email) {
+	public User findUserByEmail(String email) {
 		User finded = null;
-		
+		try {
+			finded = userDAO.getUserByEmail(email);
+		} catch (DAOException e) {
+			System.err.println(e.getMessage());
+		}
 		return finded;
 	}
 	
 
-	public ArrayList<User> searchContactByFullName(String fullName) {
+	public ArrayList<User> searchUserByFullName(String fullName) {
 		ArrayList<User> users = null;
-		
+		try {
+			users = userDAO.getUserByFullName(fullName);
+		} catch (DAOException e) {
+			System.err.println(e.getMessage());
+		}
 		return users;
 	}
 	
 	
-	public ArrayList<User> searchContactByInterest(String interest){
+	public ArrayList<User> searchUserByInterest(String interest){
 		ArrayList<User> users = null;
-		
+		try {
+			users = userDAO.getUserByInterest(interest);
+		} catch (DAOException e) {
+			System.err.println(e.getMessage());
+		}
 		return users;
 	}
 	
-	public ArrayList<User> searchContactByAge(int age){
+	public ArrayList<User> searchUserByAge(Integer age){
 		ArrayList<User> users = null;
-		
+		try {
+			users = userDAO.getUserByAge(age);
+		} catch (DAOException e) {
+			System.err.println(e.getMessage());
+		}
 		return users;
 	}
 }
