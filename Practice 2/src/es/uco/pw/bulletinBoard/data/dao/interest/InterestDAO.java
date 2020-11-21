@@ -62,5 +62,6 @@ public class InterestDAO extends AbstractDAO<Interest, Integer> {
     	
 		return interest;
 	}
+	
 
 }

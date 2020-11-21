@@ -1,1 +1,0 @@
-package es.uco.pw.bulletinBoard.display;

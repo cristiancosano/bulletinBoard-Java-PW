@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 import es.uco.pw.bulletinBoard.business.user.User;
 
-public class Ad {
+public class IndividualizedAd {
+	
+	
 	Integer id;
 	String title;
 	String body;
@@ -14,68 +16,40 @@ public class Ad {
 	AdStatus status;
 	LocalDate dateOfPublication;
 	ArrayList<User> recipients;
-	ArrayList<String> interests;
 	
-	public Ad(Integer id, String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfPublication, ArrayList<User> recipients) {
+	public IndividualizedAd(Integer id, String title, String body, Integer ownerUser, AdStatus status, LocalDate dateOfPublication,  ArrayList<User> recipients) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.ownerUser = ownerUser;
-		this.type = type;
-		this.status = status;
-		this.dateOfPublication = dateOfPublication;
-		this.recipients = recipients;
-	}
-	public Ad(String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfPublication, ArrayList<User> recipients) {
-		this.id = null;
-		this.title = title;
-		this.body = body;
-		this.ownerUser = ownerUser;
-		this.type = type;
+		this.type = AdType.individualized;
 		this.status = status;
 		this.dateOfPublication = dateOfPublication;
 		this.recipients = recipients;
 	}
 	
-	public Ad(Integer id, String title, String body, Integer ownerUser, AdType type, AdStatus status) {
-		this.id = id;
-		this.title = title;
-		this.body = body;
-		this.ownerUser = ownerUser;
-		this.type = type;
-		this.status = status;
-		this.dateOfPublication = LocalDate.now();
-	}
-	
-	public Ad(String title, String body, Integer ownerUser, AdType type, AdStatus status) {
+	public IndividualizedAd(String title, String body, Integer ownerUser, AdStatus status, LocalDate dateOfPublication, ArrayList<User> recipients) {
 		this.id = null;
 		this.title = title;
 		this.body = body;
 		this.ownerUser = ownerUser;
-		this.type = type;
-		this.status = status;
-		this.dateOfPublication = LocalDate.now();
-	}
-	
-	public Ad(String title, String body, Integer ownerUser, AdStatus status, LocalDate dateOfPublication) {
-		this.id = null;
-		this.title = title;
-		this.body = body;
-		this.ownerUser = ownerUser;
-		this.type = AdType.general;
+		this.type = AdType.individualized;
 		this.status = status;
 		this.dateOfPublication = dateOfPublication;
+		this.recipients = recipients;
 	}
 	
-	public Ad(String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfPublication) {
-		this.id = null;
-		this.title = title;
-		this.body = body;
-		this.ownerUser = ownerUser;
-		this.type = type;
-		this.status = status;
-		this.dateOfPublication = dateOfPublication;
+	public IndividualizedAd(Ad ad, ArrayList<User> recipients) {
+		this.id = ad.getId();
+		this.title = ad.getTitle();
+		this.body = ad.getBody();
+		this.ownerUser = ad.getOwnerUser();
+		this.type = ad.getType();
+		this.status = ad.getStatus();
+		this.dateOfPublication = LocalDate.now();
+		this.recipients = recipients;
 	}
+	
 
 	public Integer getId() {
 		return id;
@@ -133,7 +107,7 @@ public class Ad {
 		this.dateOfPublication = dateOfPublication;
 	}
 
-	public ArrayList<User> getRecipients() {
+	public ArrayList<User> getRecipients(){
 		return recipients;
 	}
 	
@@ -149,9 +123,9 @@ public class Ad {
 		result = prime * result + ((dateOfPublication == null) ? 0 : dateOfPublication.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((ownerUser == null) ? 0 : ownerUser.hashCode());
-		result = prime * result + ((recipients == null) ? 0 : recipients.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((type == null) ? 0 : recipients.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -170,11 +144,6 @@ public class Ad {
 				return false;
 		} else if (!body.equals(other.body))
 			return false;
-		if (dateOfPublication == null) {
-			if (other.dateOfPublication != null)
-				return false;
-		} else if (!dateOfPublication.equals(other.dateOfPublication))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -186,7 +155,7 @@ public class Ad {
 		} else if (!ownerUser.equals(other.ownerUser))
 			return false;
 		if (recipients == null) {
-			if (other.recipients != null)
+			if (other.interests != null)
 				return false;
 		} else if (!recipients.equals(other.recipients))
 			return false;
@@ -205,9 +174,13 @@ public class Ad {
 	@Override
 	public String toString() {
 		return "Ad [id=" + id + ", title=" + title + ", body=" + body + ", ownerUser=" + ownerUser + ", type=" + type
-				+ ", status=" + status + ", dateOfPublication=" + dateOfPublication  + "]";
+				+ ", status=" + status + ", dateOfPublication=" + dateOfPublication + ", recipients=" + recipients + "]";
+	}
+	
+	public Ad toAd() {
+		return new Ad(this.id, this.title, this.body, this.ownerUser, this.type, this.status);
 	}
 	
 	
-	
+
 }

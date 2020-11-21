@@ -3,15 +3,10 @@ package es.uco.pw.bulletinBoard;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import es.uco.pw.bulletinBoard.business.ad.Ad;
-import es.uco.pw.bulletinBoard.business.ad.AdHasRecipientUserDTO;
-import es.uco.pw.bulletinBoard.business.ad.AdStatus;
-import es.uco.pw.bulletinBoard.business.ad.AdType;
+
 import es.uco.pw.bulletinBoard.business.interest.Interest;
 import es.uco.pw.bulletinBoard.business.user.User;
 import es.uco.pw.bulletinBoard.business.user.UserManager;
-import es.uco.pw.bulletinBoard.data.dao.ad.AdDAO;
-import es.uco.pw.bulletinBoard.data.dao.ad.AdHasRecipientUserDAO;
 import es.uco.pw.bulletinBoard.data.dao.common.DAOException;
 import es.uco.pw.bulletinBoard.data.dao.interest.InterestDAO;
 import es.uco.pw.bulletinBoard.data.dao.user.UserDAO;
@@ -20,7 +15,7 @@ public class Main {
 
 	public static void main(String[] args) throws DAOException {
 		
-		String test = "user";
+		String test = "ad";
 		Double random = Math.random()*10000;
 		Integer randInt = random.intValue();
 		
@@ -73,24 +68,8 @@ public class Main {
 			
 			
 		}
-		else if(test == "userInterest") {
-//			UserHasInterestDAO dao = new UserHasInterestDAO();
-//			UserHasInterestDTO obj = new UserHasInterestDTO(1,2);
-//			System.out.println(dao.read(1));
-//			
-//			obj.setInterestId(3);
-//			dao.create(obj);
-//			System.out.println(dao.read(obj.getId()));
-//			
-//			obj.setInterestId(4);
-//			dao.update(obj.getId(), obj);
-//			System.out.println(dao.read(obj.getId()));
-//			
-//			dao.delete(obj.getId());
-//			System.out.println(dao.read(obj.getId()));
-			
-		}
 		else if(test == "ad") {
+			/*
 			AdDAO dao = new AdDAO();
 			System.out.println(dao.read(1));
 			
@@ -108,25 +87,22 @@ public class Main {
 			System.out.println(dao.read(object.getId()));
 			
 			
-		}
-		else if(test == "adHasUser") {
-			AdHasRecipientUserDAO dao = new AdHasRecipientUserDAO();
-			System.out.println(dao.read(1));
-			AdHasRecipientUserDTO object = new AdHasRecipientUserDTO(1, 3);
 			
-			dao.create(object);
-			System.out.println(dao.read(object.getId()));
+			UserDAO u = new UserDAO();
+			ArrayList<User> user = new ArrayList<User>();
+			user.add(u.read(1));
+			user.add(u.read(2));
+			*/
 			
-			object.setUserId(4);
-			dao.update(object.getId(), object);
-			System.out.println(dao.read(object.getId()));
 
+			//ThematicAdDAO dao = new ThematicAdDAO();
+			InterestDAO idao = new InterestDAO();
+			ArrayList<Interest> interests = new ArrayList<Interest>();
 			
-			dao.delete(object.getId());
-			System.out.println(dao.read(object.getId()));
-			
+			interests.add(idao.read(1));
+			interests.add(idao.read(2));
+			//LocalDate date = LocalDate.now();
+			//ThematicAd ad = new ThematicAd("Titulo "+randInt, "Body "+randInt, 1, AdStatus.edited, date, interests);
 		}
-		
-	} 
-		
+	} 		
 }

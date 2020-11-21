@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import es.uco.pw.bulletinBoard.business.ad.Ad;
 import es.uco.pw.bulletinBoard.business.ad.AdStatus;
 import es.uco.pw.bulletinBoard.business.ad.AdType;
-import es.uco.pw.bulletinBoard.business.interest.Interest;
-import es.uco.pw.bulletinBoard.business.user.User;
 import es.uco.pw.bulletinBoard.data.dao.common.AbstractDAO;
+import es.uco.pw.bulletinBoard.data.dao.common.DAOException;
 
 public class AdDAO extends AbstractDAO<Ad, Integer> {
 	
@@ -39,7 +38,7 @@ public class AdDAO extends AbstractDAO<Ad, Integer> {
 			preparedStatement.setInt(3, ad.getOwnerUser());
 			preparedStatement.setString(4, ad.getType().name());
 			preparedStatement.setString(5, ad.getStatus().name());
-			preparedStatement.setDate(6, Date.valueOf(ad.getDateOfExpiry()));
+			preparedStatement.setDate(6, Date.valueOf(ad.getDateOfPublication()));
 			if(ad.getId() != null)  preparedStatement.setInt(7, ad.getId());
 		}
 		catch(Exception e) {
@@ -69,34 +68,8 @@ public class AdDAO extends AbstractDAO<Ad, Integer> {
 		    	Integer owner_user = resultSet.getInt("owner_user");
 		    	AdType type = AdType.valueOf(resultSet.getString("type"));
 		    	AdStatus status = AdStatus.valueOf(resultSet.getString("status"));
-		    	LocalDate dateOfExpiry  = null;
-		    	if(resultSet.getDate("date_of_expiry") != null)
-		    		dateOfExpiry = resultSet.getDate("date_of_expiry").toLocalDate();
-		    	ArrayList<User> recipients = new ArrayList<User>();
 		    	
-		    	boolean hasNext = false;
-		    	do {
-		    		Integer userId = resultSet.getInt("user_id");
-		    		String name = resultSet.getString("name");
-			    	String lastName = resultSet.getString("last_name");
-			    	String email = resultSet.getString("email");
-			    	String password = resultSet.getString("password");
-			    	LocalDate dateOfBirth = resultSet.getDate("date_of_birth").toLocalDate();
-			    	ArrayList<Interest> interests = new ArrayList<Interest>();
-		    		
-			    	while((hasNext = resultSet.next()) && userId != null && resultSet.getInt("user_id") == userId) {
-			    		Integer interestId = resultSet.getInt("interest_id");
-			    		String value = resultSet.getString("interest");
-			    		if(interestId != null)interests.add(new Interest(interestId, value));
-			    	}
-			    	
-			    	if(userId != null) {
-			    		recipients.add(new User(userId, name, lastName, email, password, dateOfBirth, interests));
-			    	}
-			    	
-		    		
-		    	} while(hasNext);
-		    	ad = new Ad(id, title, body, owner_user, type, status, dateOfExpiry, recipients);
+		    	ad = new Ad(id, title, body, owner_user, type, status);
 			}
 		} 
 		catch (SQLException e) {
@@ -105,44 +78,63 @@ public class AdDAO extends AbstractDAO<Ad, Integer> {
 		return ad;
 	}
 	
-//	public ArrayList<Interest> getRecipients(Integer adId){
-//    	ArrayList<User> recipients = new ArrayList<User>();
-//
-//		try {
-//			PreparedStatement ps = this.connection.prepareStatement(this.sql.getProperty(this.tableName+"_READ_RECIPIENTS"));
-//	    	ps.setInt(1, adId);
-//	    	ResultSet rs = ps.executeQuery();
-//
-//	    	while(rs.next()) {
-//	    		Integer userId = rs.getInt("id");
-//				String name = rs.getString("name");
-//		    	String lastName = rs.getString("last_name");
-//		    	String email = rs.getString("email");
-//		    	String password = rs.getString("password");
-//		    	LocalDate dateOfBirth = rs.getDate("date_of_birth").toLocalDate();
-//		    	ArrayList<Interest> interests = new ArrayList<Interest>();
-//		    	
-//		    	PreparedStatement ps1 = this.connection.prepareStatement(this.sql.getProperty("USER_READ_INTERESTS"));
-//		    	ps.setInt(1, userId);
-//		    	ResultSet rs1 = ps.executeQuery();
-//		    	
-//
-//		    	while(rs1.next()) {
-//		    		Integer interestId = rs1.getInt("id");
-//		    		String value = rs1.getString("value");
-//		    		Interest aux = new Interest(interestId, value);
-//		    		interests.add(aux);
-//		    	}
-//		    	
-//	    		User aux = new Interest(adId, value);
-//	    		interests.add(aux);
-//	    	}
-//		}
-//		catch(SQLException e){
-//			e.printStackTrace();
-//		}
-//		
-//		return interests;
-//	}
+	public ArrayList<Ad> getAdsToUser(Integer userId, String order){
+		ArrayList<Ad> ads = new ArrayList<Ad>();
+		Ad aux;
+		String query = this.sql.getProperty(this.tableName+"_FOR_USER");
+		PreparedStatement ps;
+		try {
+			ps = this.connection.prepareStatement(query);
+			ps.setInt(1, userId);
+			ps.setInt(2, userId);
+			ps.setString(3, "general");
+			ps.setString(4, order);
+			System.out.println(ps);
+			ResultSet rs = ps.executeQuery();
+			while((aux = this.readObject(rs))!=null) {
+				ads.add(aux);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ads;
+	}
+	
+	
+	public ArrayList<Ad> getByOwner(Integer ownerId) throws DAOException{
+		ArrayList<Ad> ads = new ArrayList<Ad>();
+		Ad aux;
+		String query = this.sql.getProperty("AD_READ_BY_OWNER");
+		PreparedStatement ps;
+		try {
+			ps = this.connection.prepareStatement(query);
+			ps.setInt(1, ownerId);
+			ResultSet rs = ps.executeQuery();
+			while((aux = this.readObject(rs))!=null) {
+				ads.add(aux);
+			}
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(), e);
+		}
+		
+		return ads;
+	}
+
+	public ArrayList<Ad> getAdByDate(LocalDate date) throws DAOException{
+		ArrayList<Ad> ads = new ArrayList<Ad>();
+		Ad ad = null;
+		String query = this.sql.getProperty("AD_READ_BY_DATE");
+		try {
+			PreparedStatement ps = this.connection.prepareStatement(query);
+			ps.setDate(1, Date.valueOf(date));
+			ResultSet rs = ps.executeQuery();
+			while((ad = this.readObject(rs)) != null) {
+				ads.add(ad);
+			}
+		} catch(SQLException e) {
+			throw new DAOException(e.getMessage(), e);
+		}
+		return ads;
+	}
 	
 }

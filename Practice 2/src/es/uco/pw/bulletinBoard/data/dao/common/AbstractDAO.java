@@ -40,9 +40,10 @@ public abstract class AbstractDAO<P,K> implements DAO<P,K> {
 		String queryKey = this.tableName.toUpperCase()+"_CREATE";
 		String query = this.sql.getProperty(queryKey);
 		try{
-			
 			PreparedStatement ps= this.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			
 			this.setObjectStatement(ps, object);
+			System.out.println(ps);
 			status = ps.executeUpdate();
 			this.updateIdFromGeneratedKeys(ps.getGeneratedKeys(), object);
 		}
@@ -124,3 +125,4 @@ public abstract class AbstractDAO<P,K> implements DAO<P,K> {
 	}
 
 }
+

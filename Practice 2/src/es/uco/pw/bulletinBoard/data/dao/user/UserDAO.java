@@ -126,6 +126,29 @@ public class UserDAO extends AbstractDAO<User, Integer> {
 		return interests;
 	}
 	
+	public ArrayList<Interest> getInterestsDontHaveUser(Integer userId){
+	   	ArrayList<Interest> interests = new ArrayList<Interest>();
+
+			try {
+				PreparedStatement ps = this.connection.prepareStatement(this.sql.getProperty(this.tableName+"_READ_DONT_HAVE_INTERESTS"));
+		    	ps.setInt(1, userId);
+		    	ResultSet rs1 = ps.executeQuery();
+		    	
+
+		    	while(rs1.next()) {
+		    		Integer interestId = rs1.getInt("id");
+		    		String value = rs1.getString("value");
+		    		Interest aux = new Interest(interestId, value);
+		    		interests.add(aux);
+		    	}
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+			
+			return interests;
+	}
+	
 	public int addInterest(Integer userId, Integer interestId) {
 		int status = 0;
 		String query = this.sql.getProperty("USER_HAS_INTEREST_CREATE");
@@ -181,6 +204,7 @@ public class UserDAO extends AbstractDAO<User, Integer> {
 		try {
 			PreparedStatement ps = this.connection.prepareStatement(query);
 			ps.setString(1, email);
+			System.out.println(ps);
 			user = this.readObject(ps.executeQuery());
 		} catch(SQLException e) {
 			throw new DAOException(e.getMessage(), e);

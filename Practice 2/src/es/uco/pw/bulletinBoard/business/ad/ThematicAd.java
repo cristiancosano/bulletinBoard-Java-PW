@@ -3,9 +3,10 @@ package es.uco.pw.bulletinBoard.business.ad;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import es.uco.pw.bulletinBoard.business.user.User;
+import es.uco.pw.bulletinBoard.business.interest.Interest;
 
-public class Ad {
+public class ThematicAd {
+	
 	Integer id;
 	String title;
 	String body;
@@ -13,69 +14,40 @@ public class Ad {
 	AdType type;
 	AdStatus status;
 	LocalDate dateOfPublication;
-	ArrayList<User> recipients;
-	ArrayList<String> interests;
+	ArrayList<Interest> interests;
 	
-	public Ad(Integer id, String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfPublication, ArrayList<User> recipients) {
+	public ThematicAd(Integer id, String title, String body, Integer ownerUser, AdStatus status, LocalDate dateOfPublication, ArrayList<Interest> interests) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.ownerUser = ownerUser;
-		this.type = type;
+		this.type = AdType.thematic;
 		this.status = status;
 		this.dateOfPublication = dateOfPublication;
-		this.recipients = recipients;
+		this.interests = interests;
 	}
-	public Ad(String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfPublication, ArrayList<User> recipients) {
+	
+	public ThematicAd(String title, String body, Integer ownerUser, AdStatus status, LocalDate dateOfPublication, ArrayList<Interest> interests) {
 		this.id = null;
 		this.title = title;
 		this.body = body;
 		this.ownerUser = ownerUser;
-		this.type = type;
+		this.type = AdType.thematic;
 		this.status = status;
 		this.dateOfPublication = dateOfPublication;
-		this.recipients = recipients;
+		this.interests = interests;
 	}
 	
-	public Ad(Integer id, String title, String body, Integer ownerUser, AdType type, AdStatus status) {
-		this.id = id;
-		this.title = title;
-		this.body = body;
-		this.ownerUser = ownerUser;
-		this.type = type;
-		this.status = status;
-		this.dateOfPublication = LocalDate.now();
+	public ThematicAd(Ad ad, ArrayList<Interest> interests) {
+		this.id = ad.getId();
+		this.title = ad.getTitle();
+		this.body = ad.getBody();
+		this.ownerUser = ad.getOwnerUser();
+		this.type = ad.getType();
+		this.status = ad.getStatus();
+		this.interests = interests;
 	}
 	
-	public Ad(String title, String body, Integer ownerUser, AdType type, AdStatus status) {
-		this.id = null;
-		this.title = title;
-		this.body = body;
-		this.ownerUser = ownerUser;
-		this.type = type;
-		this.status = status;
-		this.dateOfPublication = LocalDate.now();
-	}
-	
-	public Ad(String title, String body, Integer ownerUser, AdStatus status, LocalDate dateOfPublication) {
-		this.id = null;
-		this.title = title;
-		this.body = body;
-		this.ownerUser = ownerUser;
-		this.type = AdType.general;
-		this.status = status;
-		this.dateOfPublication = dateOfPublication;
-	}
-	
-	public Ad(String title, String body, Integer ownerUser, AdType type, AdStatus status, LocalDate dateOfPublication) {
-		this.id = null;
-		this.title = title;
-		this.body = body;
-		this.ownerUser = ownerUser;
-		this.type = type;
-		this.status = status;
-		this.dateOfPublication = dateOfPublication;
-	}
 
 	public Integer getId() {
 		return id;
@@ -129,16 +101,16 @@ public class Ad {
 		return dateOfPublication;
 	}
 
-	public void setDateOfPublication(LocalDate dateOfPublication) {
+	public void setDateOfExpiry(LocalDate dateOfPublication) {
 		this.dateOfPublication = dateOfPublication;
 	}
 
-	public ArrayList<User> getRecipients() {
-		return recipients;
+	public ArrayList<Interest> getInterests(){
+		return interests;
 	}
 	
-	public void setRecipients(ArrayList<User> recipients) {
-		this.recipients = recipients;
+	public void setInterests(ArrayList<Interest> interests) {
+		this.interests = interests;
 	}
 	
 	@Override
@@ -149,9 +121,9 @@ public class Ad {
 		result = prime * result + ((dateOfPublication == null) ? 0 : dateOfPublication.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((ownerUser == null) ? 0 : ownerUser.hashCode());
-		result = prime * result + ((recipients == null) ? 0 : recipients.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((type == null) ? 0 : interests.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -185,10 +157,10 @@ public class Ad {
 				return false;
 		} else if (!ownerUser.equals(other.ownerUser))
 			return false;
-		if (recipients == null) {
-			if (other.recipients != null)
+		if (interests == null) {
+			if (other.interests != null)
 				return false;
-		} else if (!recipients.equals(other.recipients))
+		} else if (!interests.equals(other.interests))
 			return false;
 		if (status != other.status)
 			return false;
@@ -205,9 +177,10 @@ public class Ad {
 	@Override
 	public String toString() {
 		return "Ad [id=" + id + ", title=" + title + ", body=" + body + ", ownerUser=" + ownerUser + ", type=" + type
-				+ ", status=" + status + ", dateOfPublication=" + dateOfPublication  + "]";
+				+ ", status=" + status + ", dateOfPublication=" + dateOfPublication + ", interestes=" + interests + "]";
 	}
 	
-	
-	
+	public Ad toAd() {
+		return new Ad(this.id, this.title, this.body, this.ownerUser, this.type, this.status);
+	}
 }
